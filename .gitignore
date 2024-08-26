@@ -23,3 +23,4 @@ tests/test_data/classification_multiclass.csv
 tests/test_data/classification_twoclass.csv
 tests/test_data/regression.csv
 tests/test_data/regression_multiblock.csv
+/build
