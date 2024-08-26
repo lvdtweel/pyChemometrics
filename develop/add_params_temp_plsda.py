@@ -11,7 +11,7 @@ y = t_dset.iloc[:, 0].values
 x_scaler = ChemometricsScaler(1)
 y_scaler = ChemometricsScaler(1)
 
-plsmodel = ChemometricsPLS(ncomps=3, xscaler=x_scaler, yscaler=y_scaler)
+plsmodel = ChemometricsPLS(ncomps=3, x_scaler=x_scaler, y_scaler=y_scaler)
 
 plsmodel.fit(xmat, y)
 
@@ -54,7 +54,7 @@ np.savetxt('./tests/test_data/pls_cvweights.csv', cvweights, fmt='%.18e',
 
 x_scaler_par = ChemometricsScaler(1/2)
 y_scaler_par = ChemometricsScaler(1/2)
-plsmodel_par = ChemometricsPLS(ncomps=3, xscaler=x_scaler_par, yscaler=y_scaler_par)
+plsmodel_par = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_par, y_scaler=y_scaler_par)
 
 plsmodel_par.fit(xmat, y)
 
@@ -67,7 +67,7 @@ np.savetxt('./tests/test_data/pls_vip_par.csv', plsmodel_par.VIP(), fmt='%.18e',
 
 x_scaler_mc = ChemometricsScaler(0)
 y_scaler_mc = ChemometricsScaler(0)
-plsmodel_mc = ChemometricsPLS(ncomps=3, xscaler=x_scaler_mc, yscaler=y_scaler_mc)
+plsmodel_mc = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_mc, y_scaler=y_scaler_mc)
 
 plsmodel_mc.fit(xmat, y)
 
@@ -82,7 +82,7 @@ np.savetxt('./tests/test_data/pls_vip_mc.csv', plsmodel_mc.VIP(), fmt='%.18e',
 
 x_scaler_par = ChemometricsScaler(1/2)
 y_scaler_par = ChemometricsScaler(1/2)
-plsmodel_par = ChemometricsPLS(ncomps=3, xscaler=x_scaler_par, yscaler=y_scaler_par)
+plsmodel_par = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_par, y_scaler=y_scaler_par)
 
 plsmodel_par.fit(xmat, y)
 
@@ -95,7 +95,7 @@ np.savetxt('./tests/test_data/pls_vip_par.csv', plsmodel_par.VIP(), fmt='%.18e',
 
 x_scaler_mc = ChemometricsScaler(0)
 y_scaler_mc = ChemometricsScaler(0)
-plsmodel_mc = ChemometricsPLS(ncomps=3, xscaler=x_scaler_mc, yscaler=y_scaler_mc)
+plsmodel_mc = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_mc, y_scaler=y_scaler_mc)
 
 plsmodel_mc.fit(xmat, y)
 

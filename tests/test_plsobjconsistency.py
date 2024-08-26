@@ -47,7 +47,7 @@ class TestPLSObjectConsistency(unittest.TestCase):
 
         # Set up the same scalers
         y_scaler = ChemometricsScaler(0, with_std=False, with_mean=True)
-        self.plsreg = ChemometricsPLS(ncomps=3, yscaler=y_scaler)
+        self.plsreg = ChemometricsPLS(ncomps=3, y_scaler=y_scaler)
         self.plsda = ChemometricsPLSDA(ncomps=3)
 
         # Generate the dummy matrix so we can run the pls regression objects in the same conditions as

@@ -23,10 +23,10 @@ class ChemometricsPLS_Logistic(ChemometricsPLS, ClassifierMixin):
 
     :param int ncomps: Number of PLS components desired.
     :param sklearn._PLS pls_algorithm: Scikit-learn PLS algorithm to use - PLSRegression or PLSCanonical are supported.
-    :param xscaler: Scaler object for X data matrix.
-    :type xscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
-    :param yscaler: Scaler object for the Y data vector/matrix.
-    :type yscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param x_scaler: Scaler object for X data matrix.
+    :type x_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param y_scaler: Scaler object for the Y data vector/matrix.
+    :type y_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
     :param kwargs pls_type_kwargs: Keyword arguments to be passed during initialization of pls_algorithm.
     :raise TypeError: If the pca_algorithm or scaler objects are not of the right class.
     """
@@ -47,14 +47,14 @@ class ChemometricsPLS_Logistic(ChemometricsPLS, ClassifierMixin):
     """
 
     def __init__(self, ncomps=2, pls_algorithm=PLSRegression, logreg_algorithm=LogisticRegression,
-                 xscaler=ChemometricsScaler(), **pls_type_kwargs):
+                 x_scaler=ChemometricsScaler(), **pls_type_kwargs):
 
         try:
             # Perform the check with is instance but avoid abstract base class runs.
             pls_algorithm = pls_algorithm(ncomps, scale=False, **pls_type_kwargs)
             if not isinstance(pls_algorithm, (BaseEstimator)):
                 raise TypeError("Scikit-learn model please")
-            if not (isinstance(xscaler, TransformerMixin) or xscaler is None):
+            if not (isinstance(x_scaler, TransformerMixin) or x_scaler is None):
                 raise TypeError("Scikit-learn Transformer-like object or None")
 
             # Not important for this classifier, but "secretly" declared here so calling methods from parent
@@ -66,8 +66,8 @@ class ChemometricsPLS_Logistic(ChemometricsPLS, ClassifierMixin):
             if not isinstance(logreg_algorithm, (BaseEstimator, LogisticRegression)):
                 raise TypeError("Scikit-learn LogisticRegression please")
             # 2 blocks of data = two scaling options
-            if xscaler is None:
-                xscaler = ChemometricsScaler(0, with_std=False)
+            if x_scaler is None:
+                x_scaler = ChemometricsScaler(0, with_std=False)
                 # Force scaling to false, as this will be handled by the provided scaler or not
             # in these PLS + Logistic/LDA the y scaling will not be used anyway, but in the future might be
 
@@ -89,7 +89,7 @@ class ChemometricsPLS_Logistic(ChemometricsPLS, ClassifierMixin):
             self.n_classes = None
 
             self._ncomps = ncomps
-            self._x_scaler = xscaler
+            self._x_scaler = x_scaler
             self.cvParameters = None
             self.modelParameters = None
             self._isfitted = False
@@ -119,7 +119,7 @@ class ChemometricsPLS_Logistic(ChemometricsPLS, ClassifierMixin):
             # Scaling for the classifier setting proceeds as usual for the X block
             xscaled = self.x_scaler.fit_transform(x)
 
-            # For this "classifier" PLS objects, the yscaler is not used, as we are not interesting in decentering and
+            # For this "classifier" PLS objects, the y_scaler is not used, as we are not interesting in decentering and
             # scaling class labels and dummy matrices.
 
             # Instead, we just do some on the fly detection of binary vs multiclass classification
