@@ -89,8 +89,8 @@ class TestPLS(unittest.TestCase):
 
         x_scaler = ChemometricsScaler(1)
         y_scaler = ChemometricsScaler(1)
-        self.plsreg = ChemometricsPLS(ncomps=3, xscaler=x_scaler, yscaler=y_scaler)
-        self.plsreg_multiblock = ChemometricsPLS(ncomps=3, xscaler=x_scaler, yscaler=y_scaler)
+        self.plsreg = ChemometricsPLS(ncomps=3, x_scaler=x_scaler, y_scaler=y_scaler)
+        self.plsreg_multiblock = ChemometricsPLS(ncomps=3, x_scaler=x_scaler, y_scaler=y_scaler)
 
     def test_single_y(self):
         """
@@ -136,10 +136,10 @@ class TestPLS(unittest.TestCase):
         x_scaler_mc = ChemometricsScaler(0)
         y_scaler_mc = ChemometricsScaler(0)
 
-        pareto_model = ChemometricsPLS(ncomps=3, xscaler=x_scaler_par, yscaler=y_scaler_par)
-        pareto_model_multiy = ChemometricsPLS(ncomps=3, xscaler=x_scaler_par, yscaler=y_scaler_par)
-        mc_model = ChemometricsPLS(ncomps=3, xscaler=x_scaler_mc, yscaler=y_scaler_mc)
-        mc_model_multiy = ChemometricsPLS(ncomps=3, xscaler=x_scaler_mc, yscaler=y_scaler_mc)
+        pareto_model = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_par, y_scaler=y_scaler_par)
+        pareto_model_multiy = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_par, y_scaler=y_scaler_par)
+        mc_model = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_mc, y_scaler=y_scaler_mc)
+        mc_model_multiy = ChemometricsPLS(ncomps=3, x_scaler=x_scaler_mc, y_scaler=y_scaler_mc)
 
         pareto_model.fit(self.xmat, self.y)
         pareto_model_multiy.fit(self.xmat_multiy, self.ymat)

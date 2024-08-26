@@ -42,8 +42,8 @@ class TestPLSDA(unittest.TestCase):
 
         x_scaler = ChemometricsScaler(1)
         y_scaler = ChemometricsScaler(1, with_mean=True, with_std=False)
-        self.plsda = ChemometricsPLSDA(n_comps=3, xscaler=x_scaler, y_scaler=y_scaler)
-        self.plsda_multiy = ChemometricsPLSDA(n_comps=3, xscaler=x_scaler, y_scaler=y_scaler)
+        self.plsda = ChemometricsPLSDA(n_comps=3, x_scaler=x_scaler, y_scaler=y_scaler)
+        self.plsda_multiy = ChemometricsPLSDA(n_comps=3, x_scaler=x_scaler, y_scaler=y_scaler)
 
     def test_single_y(self):
         """

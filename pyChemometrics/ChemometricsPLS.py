@@ -20,10 +20,10 @@ class ChemometricsPLS(BaseEstimator, RegressorMixin, TransformerMixin):
 
     :param int ncomps: Number of PLS components desired.
     :param sklearn._PLS pls_algorithm: Scikit-learn PLS algorithm to use - PLSRegression or PLSCanonical are supported.
-    :param xscaler: Scaler object for X data matrix.
-    :type xscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
-    :param yscaler: Scaler object for the Y data vector/matrix.
-    :type yscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param x_scaler: Scaler object for X data matrix.
+    :type x_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param y_scaler: Scaler object for the Y data vector/matrix.
+    :type y_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
     :param kwargs pls_type_kwargs: Keyword arguments to be passed during initialization of pls_algorithm.
     :raise TypeError: If the pca_algorithm or scaler objects are not of the right class.
     """
@@ -99,7 +99,7 @@ class ChemometricsPLS(BaseEstimator, RegressorMixin, TransformerMixin):
     Computational Statistics, 2007
     """
 
-    def __init__(self, ncomps=2, pls_algorithm=PLSRegression, xscaler=ChemometricsScaler(), yscaler=None,
+    def __init__(self, ncomps=2, pls_algorithm=PLSRegression, x_scaler=ChemometricsScaler(), y_scaler=None,
                  **pls_type_kwargs):
 
         try:
@@ -108,16 +108,16 @@ class ChemometricsPLS(BaseEstimator, RegressorMixin, TransformerMixin):
             pls_algorithm = pls_algorithm(ncomps, scale=False, **pls_type_kwargs)
             if not isinstance(pls_algorithm, (BaseEstimator)):
                 raise TypeError("Scikit-learn model please")
-            if not (isinstance(xscaler, TransformerMixin) or xscaler is None):
+            if not (isinstance(x_scaler, TransformerMixin) or x_scaler is None):
                 raise TypeError("Scikit-learn Transformer-like object or None")
-            if not (isinstance(yscaler, TransformerMixin) or yscaler is None):
+            if not (isinstance(y_scaler, TransformerMixin) or y_scaler is None):
                 raise TypeError("Scikit-learn Transformer-like object or None")
             # 2 blocks of data = two scaling options
-            if xscaler is None:
-                xscaler = ChemometricsScaler(0, with_std=False)
+            if x_scaler is None:
+                x_scaler = ChemometricsScaler(0, with_std=False)
                 # Force scaling to false, as this will be handled by the provided scaler or not
-            if yscaler is None:
-                yscaler = ChemometricsScaler(0, with_std=False)
+            if y_scaler is None:
+                y_scaler = ChemometricsScaler(0, with_std=False)
 
             self.pls_algorithm = pls_algorithm
             # Most initialized as None, before object is fitted...
@@ -134,8 +134,8 @@ class ChemometricsPLS(BaseEstimator, RegressorMixin, TransformerMixin):
             self.beta_coeffs = None
 
             self._ncomps = ncomps
-            self._x_scaler = xscaler
-            self._y_scaler = yscaler
+            self._x_scaler = x_scaler
+            self._y_scaler = y_scaler
             self.cvParameters = None
             self.modelParameters = None
             self._isfitted = False

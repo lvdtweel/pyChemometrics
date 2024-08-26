@@ -23,10 +23,10 @@ class ChemometricsPLSDA(ChemometricsPLS, ClassifierMixin):
 
     :param int ncomps: Number of PLS components desired.
     :param sklearn._PLS pls_algorithm: Scikit-learn PLS algorithm to use - PLSRegression or PLSCanonical are supported.
-    :param xscaler: Scaler object for X data matrix.
-    :type xscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
-    :param yscaler: Scaler object for the Y data vector/matrix.
-    :type yscaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param x_scaler: Scaler object for X data matrix.
+    :type x_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
+    :param y_scaler: Scaler object for the Y data vector/matrix.
+    :type y_scaler: ChemometricsScaler object, scaling/preprocessing objects from scikit-learn or None.
     :param kwargs pls_type_kwargs: Keyword arguments to be passed during initialization of pls_algorithm.
     :raise TypeError: If the pca_algorithm or scaler objects are not of the right class.
     """
@@ -48,13 +48,13 @@ class ChemometricsPLSDA(ChemometricsPLS, ClassifierMixin):
     """
 
     def __init__(self, ncomps=2, pls_algorithm=PLSRegression,
-                 xscaler=ChemometricsScaler(scale_power=1), **pls_type_kwargs):
+                 x_scaler=ChemometricsScaler(scale_power=1), **pls_type_kwargs):
         """
 
         :param ncomps:
         :param pls_algorithm:
         :param logreg_algorithm:
-        :param xscaler:
+        :param x_scaler:
         :param pls_type_kwargs:
         """
         try:
@@ -62,12 +62,12 @@ class ChemometricsPLSDA(ChemometricsPLS, ClassifierMixin):
             pls_algorithm = pls_algorithm(ncomps, scale=False, **pls_type_kwargs)
             if not isinstance(pls_algorithm, (BaseEstimator)):
                 raise TypeError("Scikit-learn model please")
-            if not (isinstance(xscaler, TransformerMixin) or xscaler is None):
+            if not (isinstance(x_scaler, TransformerMixin) or x_scaler is None):
                 raise TypeError("Scikit-learn Transformer-like object or None")
 
             # 2 blocks of data = two scaling options in PLS but here...
-            if xscaler is None:
-                xscaler = ChemometricsScaler(0, with_std=False)
+            if x_scaler is None:
+                x_scaler = ChemometricsScaler(0, with_std=False)
 
             # Secretly declared here so calling methods from parent ChemometricsPLS class is possible
             self._y_scaler = ChemometricsScaler(0, with_std=False, with_mean=True)
@@ -91,7 +91,7 @@ class ChemometricsPLSDA(ChemometricsPLS, ClassifierMixin):
             self.n_classes = None
             self.class_means = None
             self._ncomps = ncomps
-            self._x_scaler = xscaler
+            self._x_scaler = x_scaler
             self.cvParameters = None
             self.modelParameters = None
             self._isfitted = False

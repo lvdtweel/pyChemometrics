@@ -20,7 +20,7 @@ class test_plslogistic(unittest.TestCase):
         self.twoclass_dataset = make_classification(40, n_features=100, n_informative=5, n_redundant=5, n_classes=2)
         self.three_classdataset = make_classification(40, n_features=100, n_informative=5, n_redundant=5, n_classes=3)
         y_scaler = ChemometricsScaler(with_mean=False, with_std=False)
-        self.plsreg = ChemometricsPLS(n_comps=3, yscaler=y_scaler)
+        self.plsreg = ChemometricsPLS(n_comps=3, y_scaler=y_scaler)
         self.plslog = ChemometricsPLS_Logistic(n_comps=3)
 
     def test_single_y(self):
